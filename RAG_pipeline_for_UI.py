@@ -8,7 +8,7 @@ import faiss
 import os
 
 #RAG
-pytesseract.pytesseract.tesseract_cmd = r"C:\path-to\Program Files\Tesseract-OCR\tesseract.exe"
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 poppler_path = r"C:\path-to\Release-24.08.0-0\poppler-24.08.0\Library\bin"
 genai.configure(api_key="your-geminiapi-key")
 
