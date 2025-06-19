@@ -25,6 +25,16 @@ ExtractIQ is a Streamlit-based AI application that processes **image-based PDFs*
 
 ---
 
+## Tech Stack
+
+- Streamlit
+- Tesseract OCR
+- Sentence-Transformers
+- FAISS
+- Gemini (Google Generative AI)
+
+---
+
 ## Installation
 
 ### 1. Clone the Repository
