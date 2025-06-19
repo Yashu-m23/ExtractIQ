@@ -1,21 +1,21 @@
-# 📄 ExtractIQ: Document Intelligence & RAG-Powered Chat
+# ExtractIQ: Document Intelligence & RAG-Powered Chat
 
 ExtractIQ is a Streamlit-based AI application that processes **image-based PDFs** using OCR, embeds their content, and enables intelligent question-answering via **RAG (Retrieval-Augmented Generation)** using Google's Gemini.
 
 ---
 
-## 🚀 Features
+## Features
 
-- ✅ Multi-PDF upload support
-- 🧠 OCR via Tesseract for scanned documents
-- 📚 Semantic chunking & embedding using Sentence Transformers
-- 🔍 FAISS vector search for fast retrieval
-- 🤖 Context-aware querying with Gemini (Gemini 1.5 Flash)
-- 💬 Streamlit chat UI for document Q&A
+- Multi-PDF upload support
+- OCR via Tesseract for scanned documents
+- Semantic chunking & embedding using Sentence Transformers
+- FAISS vector search for fast retrieval
+- Context-aware querying with Gemini (Gemini 1.5 Flash)
+- Streamlit chat UI for document Q&A
 
 ---
 
-## 🖼️ How It Works
+## How It Works
 
 1. **Upload PDFs** → multiple scanned PDFs are supported
 2. **OCR** → Extract text from each page using Tesseract
@@ -25,7 +25,7 @@ ExtractIQ is a Streamlit-based AI application that processes **image-based PDFs*
 
 ---
 
-## 📦 Installation
+## Installation
 
 ### 1. Clone the Repository
 
