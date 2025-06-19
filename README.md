@@ -43,3 +43,14 @@ ExtractIQ is a Streamlit-based AI application that processes **image-based PDFs*
 git clone https://github.com/Yashu-m23/ExtractIQ.git
 cd ExtractIQ
 ```
+### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+## Run the App
+
+```bash
+streamlit run UI.py
+```
