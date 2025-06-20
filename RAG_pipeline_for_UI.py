@@ -6,11 +6,12 @@ from sentence_transformers import SentenceTransformer
 import numpy as np
 import faiss
 import os
+from langchain_community.document_loaders import PyPDFLoader
 
 #RAG
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-poppler_path = r"C:\path-to\Release-24.08.0-0\poppler-24.08.0\Library\bin"
-genai.configure(api_key="your-geminiapi-key")
+poppler_path = r"C:\Users\yasha\Downloads\Release-24.08.0-0\poppler-24.08.0\Library\bin"
+genai.configure(api_key="AIzaSyBTuLzATYpmVjRHpUIUnb3aSpnESeqcbk4")
 
 embedder = SentenceTransformer('all-MiniLM-L6-v2')
 
@@ -36,6 +37,11 @@ def chunk_text(text, chunk_size=300, overlap=50):
 def embed_chunks(chunks):
     return embedder.encode(chunks)
 
+def check_ocr_quality(text, pdf_path, min_length=100):
+    if not text or len(text.strip()) < min_length:
+        raise ValueError(f"OCR extraction failed for document '{pdf_path}' due to low quality (text too short: {len(text)} characters).")
+    return True
+
 def build_faiss_index(embeddings):
     embedding_dim = embeddings.shape[1]
     index = faiss.IndexFlatL2(embedding_dim)
@@ -58,16 +64,30 @@ def ask_gemini_rag(question, retrieved_chunks):
 def process_pdfs(pdf_paths):
     all_chunks = []
     for pdf_path in pdf_paths:
-        images = pdf_to_images(pdf_path)
-        text = extract_text_with_tesseract(images)
-        cleaned = clean_text(text)
-        chunks = chunk_text(cleaned)
-        all_chunks.extend(chunks)
+        try:
+            images = pdf_to_images(pdf_path)
+            text = extract_text_with_tesseract(images)
+            cleaned = clean_text(text)
+            check_ocr_quality(cleaned, pdf_path) 
+            chunks = chunk_text(cleaned)
+            all_chunks.extend(chunks) 
+                
+        except ValueError as e:
+            print(str(e))
+            print("Extraction failed") 
+        except Exception as e:
+            print(f"Unexpected error processing {pdf_path}: {e}")
+        
     return all_chunks
 
 def prepare_rag_index(all_chunks):
+    if not all_chunks:
+        raise ValueError("No valid chunks were extracted. Cannot build FAISS index.")
     embeddings = embed_chunks(all_chunks)
     embeddings = np.array(embeddings)
+
+    if embeddings.size == 0 or len(embeddings.shape) < 2:
+        raise ValueError("Embedding failed or returned empty. Cannot build FAISS index.")
     index = build_faiss_index(embeddings)
     return index, all_chunks, embeddings
 
