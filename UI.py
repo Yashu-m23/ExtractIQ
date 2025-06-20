@@ -39,6 +39,7 @@ import os
 from rag_pipeline_for_UI import process_pdfs, prepare_rag_index, query_rag_model
 from streamlit import cache_data
 
+#start
 import platform
 import pytesseract
 if platform.system() == "Windows":
@@ -47,6 +48,21 @@ if platform.system() == "Windows":
 else:
     pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
     poppler_path = None
+#end
+#start
+import subprocess
+try:
+    tesseract_output = subprocess.check_output(["tesseract", "--version"]).decode()
+    st.success(f"Tesseract found:\n{tesseract_output}")
+except Exception as e:
+    st.error(f"Tesseract not found or not working: {e}")
+try:
+    pdftoppm_output = subprocess.check_output(["pdftoppm", "-v"]).decode()
+    st.success(f"Poppler (pdftoppm) found:\n{pdftoppm_output}")
+except Exception as e:
+    st.error(f"Poppler (pdftoppm) not found or not working: {e}")
+#end
+
 
 st.set_page_config(page_title="ExtractIQ", layout="wide")
 st.title("📄 ExtractIQ: Multi-PDF Upload & Chat")
