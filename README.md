@@ -2,6 +2,10 @@
 
 ExtractIQ is a Streamlit-based AI application that processes **image-based PDFs** using OCR, embeds their content, and enables intelligent question-answering via **RAG (Retrieval-Augmented Generation)** using Google's Gemini.
 
+## 🚀 Live Demo
+
+👉 [Check out the app here!](https://extractiq.streamlit.app/)
+
 ---
 
 ## Features
