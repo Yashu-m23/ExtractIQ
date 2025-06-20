@@ -12,7 +12,7 @@ from langchain_community.document_loaders import PyPDFLoader
 #RAG
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 poppler_path = r"C:path-to\Release-24.08.0-0\poppler-24.08.0\Library\bin"
-genai.configure(api_key="you-geminiapi-key")
+genai.configure(api_key="your_google_api_key")
 
 embedder = SentenceTransformer('all-MiniLM-L6-v2')
 
