@@ -67,11 +67,14 @@ def ask_gemini_rag(question, retrieved_chunks):
     context = "\n---\n".join(retrieved_chunks)
     model = genai.GenerativeModel("gemini-1.5-flash")
     prompt = (
-        "You are a precise and context-aware assistant helping extract answers from scanned documents.\n\n"
-        "Instructions:\n"
-        "- Use only the provided document content.\n"
-        "- If the answer is not in the context, respond with 'The answer is not found in the documents.'\n"
-        "- Be concise and accurate.\n\n"
+        "You are an intelligent assistant designed to analyze and answer questions from scanned documents.\n\n"
+        "Your capabilities include:\n"
+        "- Answering natural language questions using only the provided document chunks.\n"
+        "- Understanding follow-up and context-aware questions (chat format).\n"
+        "- Performing basic analytics (e.g., counting words, listing entities, finding totals).\n"
+        "- Summarizing sections or comparing details across the document.\n"
+        "- Responding 'The answer is not found in the documents.' if unsure or unsupported.\n\n"
+        "Respond clearly, concisely, and helpfully using only the given document context.\n"
         f"Document Context:\n{context}\n\n"
         f"Question:\n{question}\n\n"
         "Final Answer:"
