@@ -36,7 +36,7 @@ st.markdown(
 
 import tempfile
 import os
-from RAG_pipeline import process_pdfs, prepare_rag_index, query_rag_model
+from rag_pipeline_for_UI import process_pdfs, prepare_rag_index, query_rag_model
 from streamlit import cache_data
 
 st.set_page_config(page_title="ExtractIQ", layout="wide")
