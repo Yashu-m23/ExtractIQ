@@ -1,6 +1,7 @@
 import pytesseract
 from pdf2image import convert_from_path
 from PIL import Image
+from PIL import ImageEnhance
 import google.generativeai as genai
 from sentence_transformers import SentenceTransformer
 import numpy as np
@@ -18,8 +19,21 @@ embedder = SentenceTransformer('all-MiniLM-L6-v2')
 def pdf_to_images(pdf_path, dpi=300):
     return convert_from_path(pdf_path, dpi=dpi, poppler_path=poppler_path)
 
+def preprocess_image(img):
+    img = img.convert("L")
+    width, height = img.size
+    img = img.resize((int(width * 1.5), int(height * 1.5)))
+    enhancer = ImageEnhance.Contrast(img)
+    img = enhancer.enhance(2.0) 
+    return img
+
 def extract_text_with_tesseract(images):
-    return "\n\n".join(pytesseract.image_to_string(img) for img in images)
+    processed_text = []
+    for img in images:
+        enhanced_img = preprocess_image(img)
+        text = pytesseract.image_to_string(enhanced_img)
+        processed_text.append(text)
+    return "\n\n".join(processed_text)
 
 def clean_text(text):
     lines = [line.strip() for line in text.splitlines() if line.strip()]
@@ -49,13 +63,17 @@ def build_faiss_index(embeddings):
     return index
 
 def ask_gemini_rag(question, retrieved_chunks):
-    context = "\n".join(retrieved_chunks)
+    context = "\n---\n".join(retrieved_chunks)
     model = genai.GenerativeModel("gemini-1.5-flash")
     prompt = (
-        f"You are an assistant helping answer questions from scanned documents.\n\n"
-        f"Relevant Document Chunks:\n{context}\n\n"
+        "You are a precise and context-aware assistant helping extract answers from scanned documents.\n\n"
+        "Instructions:\n"
+        "- Use only the provided document content.\n"
+        "- If the answer is not in the context, respond with 'The answer is not found in the documents.'\n"
+        "- Be concise and accurate.\n\n"
+        f"Document Context:\n{context}\n\n"
         f"Question:\n{question}\n\n"
-        f"Answer:"
+        "Final Answer:"
     )
     response = model.generate_content(prompt)
     return response.text
