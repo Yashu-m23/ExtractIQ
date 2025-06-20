@@ -39,6 +39,15 @@ import os
 from rag_pipeline_for_UI import process_pdfs, prepare_rag_index, query_rag_model
 from streamlit import cache_data
 
+import platform
+import pytesseract
+if platform.system() == "Windows":
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    poppler_path = r"C:\path-to\poppler\Library\bin"
+else:
+    pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+    poppler_path = None
+
 st.set_page_config(page_title="ExtractIQ", layout="wide")
 st.title("📄 ExtractIQ: Multi-PDF Upload & Chat")
 
