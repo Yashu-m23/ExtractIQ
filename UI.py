@@ -1,4 +1,39 @@
 import streamlit as st
+
+st.markdown(
+    """
+    <style>
+    /* Fullscreen animated aurora gradient background */
+    .stApp {
+        background: linear-gradient(-45deg, #1b1b2f, #162447, #1f4068, #1b98e0, #23a6d5, #23d5ab);
+        background-size: 600% 600%;
+        animation: gradientFlow 20s ease infinite;
+        color: white;
+    }
+
+    @keyframes gradientFlow {
+        0% { background-position: 0% 50%; }
+        25% { background-position: 50% 100%; }
+        50% { background-position: 100% 50%; }
+        75% { background-position: 50% 0%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Optional: Improve readability by styling containers */
+    .block-container {
+        background-color: rgba(0, 0, 0, 0.6); 
+        padding: 2rem;
+        border-radius: 12px;
+    }
+
+    h1, h2, h3, h4, h5, h6, label {
+        color: #ffffff;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 import tempfile
 import os
 from RAG_pipeline import process_pdfs, prepare_rag_index, query_rag_model
