@@ -31,12 +31,12 @@ ExtractIQ is a Streamlit-based AI application that processes **image-based PDFs*
 ## Tech Stack
 
 - **Python 3.9+**
-- [Streamlit](https://streamlit.io/) — UI
-- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract)
-- [Poppler](https://poppler.freedesktop.org/) — PDF rendering
-- [FAISS](https://github.com/facebookresearch/faiss) — vector similarity search
-- [Google Gemini](https://ai.google.dev/) — LLM-based Q&A
-- [SentenceTransformers](https://www.sbert.net/) — Embedding model
+- Streamlit — UI
+- Tesseract OCR
+- Poppler — PDF rendering
+- FAISS — vector similarity search
+- Google Gemini — LLM-based Q&A
+- SentenceTransformers — Embedding model
 
 ---
 
