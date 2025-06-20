@@ -53,7 +53,7 @@ def chunk_text(text, chunk_size=300, overlap=50):
 def embed_chunks(chunks):
     return embedder.encode(chunks)
 
-def check_ocr_quality(text, pdf_path, min_length=100):
+def check_ocr_quality(text, pdf_path, min_length=30):
     if not text or len(text.strip()) < min_length:
         raise ValueError(f"OCR extraction failed for document '{pdf_path}' due to low quality (text too short: {len(text)} characters).")
     return True
