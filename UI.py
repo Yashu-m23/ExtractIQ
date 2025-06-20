@@ -36,7 +36,7 @@ st.markdown(
 
 import tempfile
 import os
-from rag_pipeline_for_UI import process_pdfs, prepare_rag_index, query_rag_model
+from RAG_pipeline import process_pdfs, prepare_rag_index, query_rag_model
 from streamlit import cache_data
 
 st.set_page_config(page_title="ExtractIQ", layout="wide")
@@ -69,18 +69,26 @@ if uploaded_files:
     else:
         faiss_index, all_chunks, _ = prepare_rag_index(all_chunks)
         st.success("✅ All documents processed successfully!")
-        st.subheader("💬 Ask Questions About Your PDFs")
-        user_query = st.text_input("Type your question:")
+        st.subheader("💬 Chat with your PDFs")
+    
+        if "chat_history" not in st.session_state:
+            st.session_state.chat_history = []
 
         @st.cache_data(show_spinner="🔁 Retrieving cached answer...")
         def cached_query(user_query, _faiss_index, _all_chunks):
             return query_rag_model(user_query, _faiss_index, _all_chunks)
-        
-        if st.button("Submit Query") and user_query:
+    
+        user_input = st.chat_input("Ask a question about your PDF...")
+
+        if user_input:
             with st.spinner("🤖 Thinking..."):
-                answer = cached_query(user_query, faiss_index, all_chunks)
-                st.success("🧠 Answer:")
-                st.write(answer)
+                answer = cached_query(user_input, faiss_index, all_chunks)
+                st.session_state.chat_history.append(("You", user_input))
+                st.session_state.chat_history.append(("ExtractIQ", answer))
+
+        for role, message in st.session_state.chat_history:
+            with st.chat_message(role):
+                st.markdown(message)
 
 else:
     st.info("Please upload one or more PDF documents to begin.")
