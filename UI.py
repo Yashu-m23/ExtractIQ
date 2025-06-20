@@ -2,6 +2,7 @@ import streamlit as st
 import tempfile
 import os
 from RAG_pipeline import process_pdfs, prepare_rag_index, query_rag_model
+from streamlit import cache_data
 
 st.set_page_config(page_title="ExtractIQ", layout="wide")
 st.title("📄 ExtractIQ: Multi-PDF Upload & Chat")
@@ -35,9 +36,14 @@ if uploaded_files:
         st.success("✅ All documents processed successfully!")
         st.subheader("💬 Ask Questions About Your PDFs")
         user_query = st.text_input("Type your question:")
+
+        @st.cache_data(show_spinner="🔁 Retrieving cached answer...")
+        def cached_query(user_query, _faiss_index, _all_chunks):
+            return query_rag_model(user_query, _faiss_index, _all_chunks)
+        
         if st.button("Submit Query") and user_query:
             with st.spinner("🤖 Thinking..."):
-                answer = query_rag_model(user_query, faiss_index, all_chunks)
+                answer = cached_query(user_query, faiss_index, all_chunks)
                 st.success("🧠 Answer:")
                 st.write(answer)
 
