@@ -43,7 +43,7 @@ ExtractIQ is a Streamlit-based AI application that processes **image-based PDFs*
 (File Structure
 📁 App/
   ├── UI.py
-  └── RAG_pipeline_for_UI.py)
+  └── rag_pipeline_for_UI.py)
   
 ## Installation
 
