@@ -11,14 +11,15 @@ from langchain_community.document_loaders import PyPDFLoader
 import streamlit as st
 
 #RAG
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-poppler_path = r"C:path-to\Release-24.08.0-0\poppler-24.08.0\Library\bin"
+#pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+#poppler_path = r"C:path-to\Release-24.08.0-0\poppler-24.08.0\Library\bin"
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
 embedder = SentenceTransformer('all-MiniLM-L6-v2')
 
 def pdf_to_images(pdf_path, dpi=300):
-    return convert_from_path(pdf_path, dpi=dpi, poppler_path=poppler_path)
+    #return convert_from_path(pdf_path, dpi=dpi, poppler_path=poppler_path)
+    return convert_from_path(pdf_path, dpi=300)
 
 def preprocess_image(img):
     img = img.convert("L")
