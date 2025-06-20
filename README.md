@@ -13,7 +13,7 @@ ExtractIQ is a Streamlit-based AI application that processes **image-based PDFs*
 - Upload and process multiple scanned PDF files
 - Optical Character Recognition (OCR) using Tesseract
 - Enhanced OCR accuracy with preprocessing (grayscale, contrast, resizing)
-- Ask questions using natural language
+- Chat using natural language
 - Gemini 1.5 Flash for contextual understanding
 - FAISS-powered vector search for relevant info
 - Automatic detection of low-quality PDFs
@@ -28,7 +28,7 @@ ExtractIQ is a Streamlit-based AI application that processes **image-based PDFs*
 2. **OCR** → Extract text from each page using Tesseract
 3. **Chunk & Embed** → Text is chunked and encoded into vectors
 4. **Store in FAISS** → Fast vector search over chunks
-5. **Ask Questions** → Query is matched to chunks, and Gemini generates answers
+5. **Chat with your documents** → Each message is matched to relevant chunks, and Gemini responds conversationally based on the context
 
 ---
 
