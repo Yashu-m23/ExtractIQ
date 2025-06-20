@@ -1,7 +1,7 @@
 import streamlit as st
 import tempfile
 import os
-from RAG_pipeline_for_UI import process_pdfs, prepare_rag_index, query_rag_model
+from RAG_pipeline import process_pdfs, prepare_rag_index, query_rag_model
 
 st.set_page_config(page_title="ExtractIQ", layout="wide")
 st.title("📄 ExtractIQ: Multi-PDF Upload & Chat")
@@ -26,17 +26,20 @@ if uploaded_files:
                 temp_paths.append(tmp_file.name)
 
         all_chunks = process_pdfs(temp_paths)
+
+    if not all_chunks:
+        st.warning("⚠️ OCR extraction failed for all uploaded files. Please try uploading clearer PDFs.")
+   
+    else:
         faiss_index, all_chunks, _ = prepare_rag_index(all_chunks)
+        st.success("✅ All documents processed successfully!")
+        st.subheader("💬 Ask Questions About Your PDFs")
+        user_query = st.text_input("Type your question:")
+        if st.button("Submit Query") and user_query:
+            with st.spinner("🤖 Thinking..."):
+                answer = query_rag_model(user_query, faiss_index, all_chunks)
+                st.success("🧠 Answer:")
+                st.write(answer)
 
-    st.success("✅ All documents processed successfully!")
-
-    st.subheader("💬 Ask Questions About Your PDFs")
-    user_query = st.text_input("Type your question:")
-
-    if st.button("Submit Query") and user_query:
-        with st.spinner("🤖 Thinking..."):
-            answer = query_rag_model(user_query, faiss_index, all_chunks)
-            st.success("🧠 Answer:")
-            st.write(answer)
 else:
     st.info("Please upload one or more PDF documents to begin.")
